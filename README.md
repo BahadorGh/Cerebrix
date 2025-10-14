@@ -7,6 +7,7 @@ Project Overview
 
 
 # Cross-Chain Agent Marketplace
-## Backend > [url](https://github.com/BahadorGh/CCAM/backend)
-## Frontend > [url](https://github.com/BahadorGh/CCAM/frontend)
-## Contracts > [url](https://github.com/BahadorGh/CCAM/contracts)
+## Backend > [backend](https://github.com/BahadorGh/CCAM/tree/main/backend)
+## Frontend > [frontend](https://github.com/BahadorGh/CCAM/tree/main/frontend)
+## Contracts > [contracts](https://github.com/BahadorGh/CCAM/tree/main/contracts)
+
