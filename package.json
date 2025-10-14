@@ -1,0 +1,21 @@
+{
+  "name": "cross-chain-agent-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "frontend",
+    "backend",
+    "packages/*"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev:contracts": "cd contracts && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "test": "npm run test --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
