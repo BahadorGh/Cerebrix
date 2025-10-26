@@ -5,6 +5,7 @@ import agentRoutes from './routes/agent.routes';
 import { contractService } from './services/contract.service';
 import { handleAgentRegistered } from './handlers/registration.handler';
 import { handleAgentExecuted } from './handlers/execution.handler';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -20,7 +21,6 @@ async function initializeServices() {
 
     await contractService.initialize();
 
-    // Start listening to events
     contractService.listenToEvents((event) => {
         if (event.type === 'AgentRegistered') {
             handleAgentRegistered(event);
@@ -40,6 +40,10 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/agents', agentRoutes);
+
+// Error handling
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
