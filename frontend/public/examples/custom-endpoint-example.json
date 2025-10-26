@@ -1,0 +1,7 @@
+{
+    "name": "Custom Webhook Agent",
+    "description": "Sends execution data to your custom endpoint",
+    "price": "5",
+    "executionType": "custom",
+    "customEndpoint": "https://your-webhook-url.com/execute"
+}

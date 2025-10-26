@@ -1,0 +1,12 @@
+{
+    "name": "BTC Momentum Strategy",
+    "description": "Analyzes BTC price momentum using 50-day MA",
+    "price": "3",
+    "executionType": "template",
+    "templateId": "momentum",
+    "templateConfig": {
+        "symbol": "BTC",
+        "threshold": 65000,
+        "timeframe": "1d"
+    }
+}
