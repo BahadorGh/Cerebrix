@@ -41,7 +41,7 @@ export class ContractService {
         };
 
         if (!isValidAddress(registryAddress) || !isValidAddress(processorAddress)) {
-            console.warn('⚠️ Contract addresses not configured, some features may be unavailable');
+            console.warn('⚠️  Contract addresses not configured, some features may be unavailable');
             console.warn('   Deploy contracts and update .env to enable on-chain features');
             return;
         }
@@ -55,12 +55,12 @@ export class ContractService {
             { id: 80002, name: 'Polygon Amoy' },
         ];
 
-        console.log('Initializing contract service for multi-chain event listening...');
+        console.log('📝 Initializing contract service for multi-chain event listening...');
 
         for (const chain of testnetChains) {
             const provider = this.providers.get(chain.id);
             if (!provider) {
-                console.warn(`No provider configured for ${chain.name} (${chain.id})`);
+                console.warn(`⚠️  No provider configured for ${chain.name} (${chain.id})`);
                 continue;
             }
 
@@ -97,7 +97,7 @@ export class ContractService {
             );
         }
 
-        console.log(`\n Multi-chain event listening ready for ${this.registryContracts.size} chains`);
+        console.log(`\n📡 Multi-chain event listening ready for ${this.registryContracts.size} chains`);
     }
 
     /**

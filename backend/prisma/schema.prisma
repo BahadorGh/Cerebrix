@@ -1,50 +1,88 @@
+// Prisma schema for Enterprise Cross-Chain Agent Marketplace
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
+// Agent metadata stored on-chain, but we cache for performance
 model Agent {
-  id              Int      @id
-  owner           String
-  name            String
-  description     String
-  metadataURI     String
-  price           String
-  totalExecutions Int      @default(0)
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deployments     AgentDeployment[]
-  executions      Execution[]
+  id                  Int            @id @default(autoincrement())
+  agentId             Int            @unique // On-chain agent ID
+  owner               String         // Ethereum address
+  metadataURI         String         // IPFS URI
+  metadataCached      String?        // Cached IPFS metadata (JSON as string for SQLite)
+  pricePerExecution   String         // Wei/USDC amount as string
+  revenueSharePercent Int
+  totalExecutions     Int            @default(0)
+  totalRevenue        String         @default("0")
+  isActive            Boolean        @default(true)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
 }
 
-model AgentDeployment {
-  id        Int      @id @default(autoincrement())
-  agentId   Int
-  chainId   Int
-  timestamp DateTime @default(now())
-  isActive  Boolean  @default(true)
-  agent     Agent    @relation(fields: [agentId], references: [id])
+// Cross-chain deployments (no foreign key - uses on-chain agentId)
+model Deployment {
+  id                Int      @id @default(autoincrement())
+  agentId           Int      // On-chain agent ID (not foreign key)
+  chainId           Int
+  deploymentAddress String
+  isActive          Boolean  @default(true)
+  deployedAt        DateTime @default(now())
   
   @@unique([agentId, chainId])
 }
 
+// Execution records (no foreign key - uses on-chain agentId)
 model Execution {
+  id              Int      @id @default(autoincrement())
+  agentId         Int      // On-chain agent ID (not foreign key)
+  executor        String   // Ethereum address
+  amount          String   // Wei/USDC amount as string
+  txHash          String   @unique
+  chainId         Int
+  parameters      String?  // Execution parameters (JSON as string for SQLite)
+  result          String?  // Execution result (JSON as string for SQLite)
+  status          String   @default("PENDING")
+  executedAt      DateTime @default(now())
+  completedAt     DateTime?
+}
+
+// IPFS metadata cache
+model IPFSMetadata {
   id          Int      @id @default(autoincrement())
-  agentId     Int
-  executor    String
-  chainId     Int
-  txHash      String
-  result      String?
-  status      String   @default("pending")
-  sourceChain Int?
-  timestamp   DateTime @default(now())
-  agent       Agent    @relation(fields: [agentId], references: [id])
-  
-  @@index([agentId])
-  @@index([executor])
+  cid         String   @unique
+  content     String   // JSON as string for SQLite
+  cachedAt    DateTime @default(now())
+}
+
+// Cross-chain bridge transactions (Avail Nexus)
+model BridgeTransaction {
+  id              Int      @id @default(autoincrement())
+  fromChainId     Int
+  toChainId       Int
+  fromAddress     String
+  toAddress       String
+  amount          String
+  token           String
+  bridgeTxHash    String   @unique
+  status          String   @default("PENDING")
+  createdAt       DateTime @default(now())
+  completedAt     DateTime?
+}
+
+// Analytics tracking (Blockscout integration)
+model Analytics {
+  id              Int      @id @default(autoincrement())
+  agentId         Int?
+  chainId         Int
+  eventType       String
+  eventData       String   // JSON as string for SQLite
+  txHash          String?
+  blockNumber     Int?
+  timestamp       DateTime @default(now())
 }

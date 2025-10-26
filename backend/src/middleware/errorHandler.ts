@@ -1,23 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 
-export function errorHandler(
-    err: Error,
+export interface CustomError extends Error {
+    statusCode?: number;
+    details?: any;
+}
+
+export const errorHandler = (
+    err: CustomError,
     req: Request,
     res: Response,
     next: NextFunction
-) {
-    console.error('❌ Error:', err.message);
-    console.error(err.stack);
+) => {
+    console.error('❌ Error:', err);
 
-    res.status(500).json({
-        error: 'Internal server error',
-        message: process.env.NODE_ENV === 'development' ? err.message : undefined,
-    });
-}
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
 
-export function notFoundHandler(req: Request, res: Response) {
-    res.status(404).json({
-        error: 'Not found',
-        path: req.path,
+    res.status(statusCode).json({
+        error: {
+            message,
+            ...(process.env.NODE_ENV === 'development' && {
+                stack: err.stack,
+                details: err.details
+            }),
+        },
     });
-}
+};
