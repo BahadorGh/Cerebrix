@@ -5,8 +5,7 @@
   "workspaces": [
     "contracts",
     "frontend",
-    "backend",
-    "packages/*"
+    "backend"
   ],
   "scripts": {
     "install:all": "npm install",
