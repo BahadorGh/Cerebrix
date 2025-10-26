@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import agentRoutes from './routes/agent.routes';
 import { contractService } from './services/contract.service';
+import { handleAgentRegistered } from './handlers/registration.handler';
+import { handleAgentExecuted } from './handlers/execution.handler';
 
 dotenv.config();
 
@@ -13,7 +15,24 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize services
-contractService.initialize().catch(console.error);
+async function initializeServices() {
+    console.log('🚀 Initializing services...');
+
+    await contractService.initialize();
+
+    // Start listening to events
+    contractService.listenToEvents((event) => {
+        if (event.type === 'AgentRegistered') {
+            handleAgentRegistered(event);
+        } else if (event.type === 'AgentExecuted') {
+            handleAgentExecuted(event);
+        }
+    });
+
+    console.log('✅ Services initialized\n');
+}
+
+initializeServices().catch(console.error);
 
 // Routes
 app.get('/health', (req, res) => {
@@ -23,5 +42,5 @@ app.get('/health', (req, res) => {
 app.use('/api/agents', agentRoutes);
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
