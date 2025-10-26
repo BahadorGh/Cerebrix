@@ -1,0 +1,26 @@
+{
+  "name": "Pyth Price Trading Agent",
+  "version": "1.0.0",
+  "type": "price_analyzer",
+  "execution": {
+    "runtime": "node",
+    "entry": "ai.service.ts",
+    "location": "centralized_backend"
+  },
+  "data_sources": {
+    "primary": "pyth_network",
+    "feeds": [
+      "ETH/USD"
+    ]
+  },
+  "strategy": {
+    "type": "momentum_analysis",
+    "signals": [
+      "BUY",
+      "SELL",
+      "HOLD"
+    ],
+    "confidence_threshold": 0.7
+  },
+  "note": "This agent runs on the platform's backend. Future versions will support decentralized execution via IPFS + iExec(or other decentralized computing systems)"
+}

@@ -1,2 +1,4 @@
 node_modules/
 packages/
+ipfs-config/
+docker-compose.yml
