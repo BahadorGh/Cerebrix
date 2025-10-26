@@ -704,7 +704,7 @@ export default function CreateAgentPage() {
           {selectedChains.length > 0 && (
             <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-sm text-blue-800">
-                ✓ Selected {selectedChains.length} chain{selectedChains.length !== 1 ? 's' : ''} for deployment
+                ✓ Selected {selectedChains.length} chain{selectedChains.length !== 1 ? 's' : ''} for registration
               </p>
             </div>
           )}
