@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Agent {
+  id              Int      @id
+  owner           String
+  name            String
+  description     String
+  metadataURI     String
+  price           String
+  totalExecutions Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  deployments     AgentDeployment[]
+  executions      Execution[]
+}
+
+model AgentDeployment {
+  id        Int      @id @default(autoincrement())
+  agentId   Int
+  chainId   Int
+  timestamp DateTime @default(now())
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  
+  @@unique([agentId, chainId])
+}
+
+model Execution {
+  id          Int      @id @default(autoincrement())
+  agentId     Int
+  executor    String
+  chainId     Int
+  txHash      String
+  result      String?
+  status      String   @default("pending")
+  timestamp   DateTime @default(now())
+  agent       Agent    @relation(fields: [agentId], references: [id])
+}
