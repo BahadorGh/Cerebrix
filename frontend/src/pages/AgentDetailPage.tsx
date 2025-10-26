@@ -6,6 +6,7 @@ import { fetchAgent } from '../lib/api';
 import ChainSelector from '../components/ChainSelector';
 import { AGENT_REGISTRY_ADDRESS, AGENT_REGISTRY_ABI, PAYMENT_TOKEN_ADDRESS } from '../config/contracts';
 import { useBalance } from 'wagmi';
+import { bridgeAndExecute } from '../lib/nexus';
 
 
 function AgentDetailPage() {
@@ -51,11 +52,28 @@ function AgentDetailPage() {
   return balance.value < priceInWei;
 };
 
-  const handleExecute = async () => {
-    if (!agent || !address) return;
-    
-    setExecuting(true);
-    try {
+const handleExecute = async () => {
+  if (!agent || !address || !chainId) return;
+  
+  setExecuting(true);
+  try {
+    // Check if bridge needed
+    if (needsBridge()) {
+      console.log('Using bridge & execute...');
+      const priceInWei = parseUnits(agent.price, 6);
+      
+      await bridgeAndExecute(
+        { chainId },
+        selectedChain,
+        priceInWei.toString(),
+        agent.id,
+        selectedChain
+      );
+      
+      alert('Bridge transaction initiated! Check Nexus Explorer for status.');
+    } else {
+      // Direct execution on current chain
+      console.log('Direct execution...');
       await writeContract({
         address: AGENT_REGISTRY_ADDRESS,
         abi: AGENT_REGISTRY_ABI,
@@ -63,12 +81,14 @@ function AgentDetailPage() {
         args: [BigInt(agent.id), BigInt(selectedChain), '0x'],
         value: parseUnits(agent.price, 6),
       });
-    } catch (error) {
-      console.error('Execution failed:', error);
-    } finally {
-      setExecuting(false);
     }
-  };
+  } catch (error) {
+    console.error('Execution failed:', error);
+    alert('Execution failed. Check console for details.');
+  } finally {
+    setExecuting(false);
+  }
+};
 
   if (loading) return <div>Loading...</div>;
   if (!agent) return <div>Agent not found</div>;
