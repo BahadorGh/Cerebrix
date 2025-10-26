@@ -3,7 +3,7 @@ import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import AgentListPage from './pages/AgentListPage';
 import AgentDetailPage from './pages/AgentDetailPage';
-
+import CreateAgentPage from './pages/CreateAgentPage';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/agents" element={<AgentListPage />} />
             <Route path="/agents/:id" element={<AgentDetailPage />} />
+            <Route path="/create" element={<CreateAgentPage />} />
           </Routes>
         </div>
       </div>
