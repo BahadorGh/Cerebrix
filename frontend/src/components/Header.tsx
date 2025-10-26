@@ -9,10 +9,10 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
+              <span className="text-white font-bold text-xl">C</span>
             </div>
             <span className="text-xl font-bold text-gray-900">
-              Agent Marketplace
+              Cerebrix Agent Marketplace
             </span>
           </Link>
 

@@ -8,7 +8,7 @@ import {MockERC20} from "../src/mocks/MockERC20.sol";
 
 /**
  * @title DeployMarketplace
- * @notice Deployment script for Agent Marketplace contracts
+ * @notice Deployment script for Cerebrix Agent Marketplace contracts
  * @dev Usage: forge script script/Deploy.s.sol:DeployMarketplace --rpc-url $RPC_URL --broadcast --verify
  */
 contract DeployMarketplace is Script {
@@ -26,7 +26,7 @@ contract DeployMarketplace is Script {
         address usdcAddress = getUSDCAddress();
 
         console.log("\n========================================");
-        console.log("Deploying Agent Marketplace");
+        console.log("Deploying Cerebrix Agent Marketplace");
         console.log("========================================");
         console.log("Chain ID:", block.chainid);
         console.log("Network:", getNetworkName());

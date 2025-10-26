@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "React frontend for Enterprise Cross-Chain Agent Marketplace",
+  "description": "React frontend for Cerebrix, the best Enterprise Cross-Chain Agent Marketplace",
   "main": "tailwind.config.js",
   "scripts": {
     "dev": "vite",

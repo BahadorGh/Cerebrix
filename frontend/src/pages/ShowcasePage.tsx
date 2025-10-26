@@ -191,7 +191,7 @@ const tx = await pythTradingAgent.executeAnalysis(
           🏆 ETHGlobal 2025 Hackathon Showcase
         </h1>
         <p className="text-xl text-gray-600 mb-6">
-          Demonstrating integration with all 4 sponsor technologies
+          Demonstrating integration with all 3 sponsor technologies
         </p>
         
         {isConnected && (

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function HomePage() {
   return (
     <div className="space-y-16">
-      <Link to="/showcase" className="block">
+      {/* <Link to="/showcase" className="block">
         <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-xl p-8 shadow-2xl hover:shadow-3xl transition-all cursor-pointer transform hover:scale-[1.02]">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -33,14 +33,14 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </Link>
+      </Link> */}
 
       {/* Hero Section */}
       <section className="text-center py-20">
-        <h1 className="text-5xl font-bold text-gray-900 mb-6">
-          Enterprise Cross-Chain
+        <h1 className="text-5xl font-bold text-primary-600 mb-6">
+          CEREBRIX 
           <br />
-          <span className="text-primary-600">Agent Marketplace</span>
+          <span className="text-gray-600">The Brain of Multi-Chain AI</span>
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Register, monetize, and execute AI agents across multiple blockchains.
@@ -79,7 +79,6 @@ export default function HomePage() {
           </div>
           <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
             Pyth Oracles
-            <span className="text-xs bg-purple-600 text-white px-2 py-0.5 rounded">NEW</span>
           </h3>
           <p className="text-gray-600">
             Real-time price feeds from Pyth Network for data-driven AI agent

@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="font-bold text-gray-900 mb-4">Agent Marketplace</h3>
+            <h3 className="font-bold text-gray-900 mb-4">Cerebrix Agent Marketplace</h3>
             <p className="text-gray-600 text-sm">
               Enterprise cross-chain platform for deploying and monetizing AI agents
               powered by Avail Nexus, USDC, and Blockscout.
@@ -81,7 +81,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-200">
           <p className="text-center text-gray-600 text-sm">
-            CCAM© 2025 Agent Marketplace. Built for ETHGlobal 2025.
+            CCAM© 2025 Cerebrix Agent Marketplace. Built for ETHGlobal 2025.
           </p>
         </div>
       </div>

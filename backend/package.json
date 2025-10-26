@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "type": "module",
-    "description": "Express.js backend for Enterprise Cross-Chain Agent Marketplace",
+    "description": "Express.js backend for Cerebrix, Enterprise Cross-Chain Agent Marketplace",
     "main": "dist/index.js",
     "scripts": {
         "dev": "tsx watch src/index.ts",

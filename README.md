@@ -1,12 +1,12 @@
-**Cross-Chain Agent Marketplace.**
+**Cerebrix, the best Cross-Chain Agent Marketplace.**
 
 Project Overview
-• A decentralized marketplace where costumers browse, deploy, and monetize AI-powered blockchain agents that automate cross-chain workflows.
+• A decentralized marketplace where customers browse, deploy, and monetize AI-powered blockchain agents that automate cross-chain workflows.
 • Agents run on multiple EVM-compatible chains via Avail Nexus SDK, with revenue settlements in USDC and analytics provided by Blockscout.
-• Key value: Costumers get plug-and-play AI automation without in-house blockchain expertise; developers earn ongoing fees via revenue sharing.
+• Key value: Customers get plug-and-play AI automation without in-house blockchain expertise; developers earn ongoing fees via revenue sharing.
 
 
-# Cross-Chain Agent Marketplace
+# Cerebrix, the best Cross-Chain Agent Marketplace
 ## Backend > [backend](https://github.com/BahadorGh/CCAM/tree/main/backend)
 ## Frontend > [frontend](https://github.com/BahadorGh/CCAM/tree/main/frontend)
 ## Contracts > [contracts](https://github.com/BahadorGh/CCAM/tree/main/contracts)
