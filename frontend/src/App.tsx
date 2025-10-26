@@ -1,13 +1,15 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold">CCAM - Cross Chain Agent Marketplace</h1>
-        <p className="mt-4 text-gray-400">
-          AI-Powered Autonomous Agent Platform
-        </p>
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-900 text-white p-8">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
