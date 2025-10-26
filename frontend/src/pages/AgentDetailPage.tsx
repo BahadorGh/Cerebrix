@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseUnits } from 'viem';
 import { fetchAgent } from '../lib/api';
-import { AGENT_REGISTRY_ADDRESS, AGENT_REGISTRY_ABI, PAYMENT_TOKEN_ADDRESS, ERC20_ABI } from '../config/contracts';
+import ChainSelector from '../components/ChainSelector';
+import { AGENT_REGISTRY_ADDRESS, AGENT_REGISTRY_ABI } from '../config/contracts';
 
 function AgentDetailPage() {
   const { id } = useParams();
@@ -11,6 +12,7 @@ function AgentDetailPage() {
   const [agent, setAgent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [executing, setExecuting] = useState(false);
+  const [selectedChain, setSelectedChain] = useState<number>(11155111);
 
   const { writeContract, data: hash } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
@@ -18,7 +20,13 @@ function AgentDetailPage() {
   useEffect(() => {
     if (id) {
       fetchAgent(Number(id))
-        .then(setAgent)
+        .then(data => {
+          setAgent(data);
+          // Set selected chain to first deployed chain
+          if (data.deployedChains?.length > 0) {
+            setSelectedChain(data.deployedChains[0]);
+          }
+        })
         .catch(err => console.error(err))
         .finally(() => setLoading(false));
     }
@@ -29,13 +37,12 @@ function AgentDetailPage() {
     
     setExecuting(true);
     try {
-      // Simple execution on current chain
       await writeContract({
         address: AGENT_REGISTRY_ADDRESS,
         abi: AGENT_REGISTRY_ABI,
         functionName: 'executeAgent',
-        args: [BigInt(agent.id), BigInt(chainId || 11155111), '0x'],
-        value: parseUnits(agent.price, 6), // USDC has 6 decimals
+        args: [BigInt(agent.id), BigInt(selectedChain), '0x'],
+        value: parseUnits(agent.price, 6),
       });
     } catch (error) {
       console.error('Execution failed:', error);
@@ -65,8 +72,18 @@ function AgentDetailPage() {
         </div>
       </div>
 
+      <ChainSelector
+        selectedChain={selectedChain}
+        onSelectChain={setSelectedChain}
+        availableChains={agent.deployedChains || [11155111]}
+      />
+
       {!isConnected ? (
-        <p className="text-yellow-500">Please connect your wallet to execute</p>
+        <p className="text-yellow-500">Please connect your wallet</p>
+      ) : chainId !== selectedChain ? (
+        <p className="text-yellow-500">
+          ⚠️ Switch your wallet to {selectedChain === 11155111 ? 'Sepolia' : 'the selected chain'}
+        </p>
       ) : (
         <button 
           onClick={handleExecute}
