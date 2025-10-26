@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import AgentListPage from './pages/AgentListPage';
+import AgentDetailPage from './pages/AgentDetailPage';
+
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/agents" element={<AgentListPage />} />
+            <Route path="/agents/:id" element={<AgentDetailPage />} />
           </Routes>
         </div>
       </div>
