@@ -17,6 +17,7 @@ model Agent {
   totalExecutions Int      @default(0)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
   deployments     AgentDeployment[]
   executions      Execution[]
 }
@@ -26,6 +27,7 @@ model AgentDeployment {
   agentId   Int
   chainId   Int
   timestamp DateTime @default(now())
+  isActive  Boolean  @default(true)
   agent     Agent    @relation(fields: [agentId], references: [id])
   
   @@unique([agentId, chainId])
@@ -39,6 +41,10 @@ model Execution {
   txHash      String
   result      String?
   status      String   @default("pending")
+  sourceChain Int?
   timestamp   DateTime @default(now())
   agent       Agent    @relation(fields: [agentId], references: [id])
+  
+  @@index([agentId])
+  @@index([executor])
 }
