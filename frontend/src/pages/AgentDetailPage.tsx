@@ -4,7 +4,9 @@ import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagm
 import { parseUnits } from 'viem';
 import { fetchAgent } from '../lib/api';
 import ChainSelector from '../components/ChainSelector';
-import { AGENT_REGISTRY_ADDRESS, AGENT_REGISTRY_ABI } from '../config/contracts';
+import { AGENT_REGISTRY_ADDRESS, AGENT_REGISTRY_ABI, PAYMENT_TOKEN_ADDRESS } from '../config/contracts';
+import { useBalance } from 'wagmi';
+
 
 function AgentDetailPage() {
   const { id } = useParams();
@@ -16,6 +18,12 @@ function AgentDetailPage() {
 
   const { writeContract, data: hash } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const { data: balance } = useBalance({
+    address: address,
+    token: PAYMENT_TOKEN_ADDRESS,
+    chainId: chainId,
+    });
 
   useEffect(() => {
     if (id) {
@@ -31,6 +39,17 @@ function AgentDetailPage() {
         .finally(() => setLoading(false));
     }
   }, [id]);
+
+  const needsBridge = () => {
+  if (!chainId || !balance) return false;
+  
+  // If on different chain, needs bridge
+  if (chainId !== selectedChain) return true;
+  
+  // Check if have enough balance
+  const priceInWei = parseUnits(agent.price, 6);
+  return balance.value < priceInWei;
+};
 
   const handleExecute = async () => {
     if (!agent || !address) return;
@@ -78,21 +97,18 @@ function AgentDetailPage() {
         availableChains={agent.deployedChains || [11155111]}
       />
 
-      {!isConnected ? (
-        <p className="text-yellow-500">Please connect your wallet</p>
-      ) : chainId !== selectedChain ? (
-        <p className="text-yellow-500">
-          ⚠️ Switch your wallet to {selectedChain === 11155111 ? 'Sepolia' : 'the selected chain'}
-        </p>
-      ) : (
-        <button 
-          onClick={handleExecute}
-          disabled={executing || isConfirming}
-          className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 px-6 py-3 rounded-lg"
-        >
-          {executing || isConfirming ? 'Executing...' : 'Execute Agent'}
-        </button>
-      )}
+{!isConnected ? (
+  <p className="text-yellow-500">Please connect your wallet</p>
+) : needsBridge() ? (
+  <div className="bg-yellow-900/30 border border-yellow-700 p-4 rounded-lg mb-4">
+    <p className="text-yellow-400">
+      🌉 Cross-chain execution detected. Bridge & Execute will be used.
+    </p>
+    <p className="text-sm text-gray-400 mt-2">
+      Funds will be bridged from {chainId === 11155111 ? 'Sepolia' : 'your current chain'} to execute on the target chain.
+    </p>
+  </div>
+) : null}
 
       {isSuccess && (
         <p className="mt-4 text-green-500">✅ Execution successful!</p>
