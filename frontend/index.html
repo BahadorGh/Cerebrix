@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Enterprise Cross-Chain Agent Marketplace - Deploy and monetize AI agents across multiple blockchains" />
+    <title>Agent Marketplace | ETHGlobal 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Polyfill Buffer BEFORE any modules load (required for Nexus SDK) -->
+    <script type="module">
+        import { Buffer } from 'buffer';
+        window.Buffer = Buffer;
+        window.process = window.process || { env: {} };
+        window.global = window;
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
